@@ -1,0 +1,199 @@
+html, body {
+    background-color: #F4F4F4;
+    font-family: 'Pontano Sans', sans-serif;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+								  text-align: center;
+								  overflow: hidden;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+span {
+	border-right: 1px solid rgb(65, 65, 65);
+	padding: 10px;
+	height: 70px;
+	max-height: 100%;
+	display: inline-block;
+}
+
+.content_loading {
+	border: 1px solid #ccc;
+	margin: 10px;
+	width: 100%;
+	text-align: center;
+}
+
+#loading {
+	background-color: #184;
+	width: 0px;
+	color: #fff;
+	position: relative;
+}
+
+.tela {
+	flex: 1;
+	flex-direction: row;
+}
+
+.entrada_saida {
+	display: flex;
+	flex-direction: row;
+}
+
+.entrada_saida fieldset {
+	height: 100%;
+	flex: 1;
+}
+
+header {
+	background-color: #4F4F4F;
+	height: 75px;
+	width: 100%;
+	padding: 5px;
+	flex: 1;
+	flex-direction: column;
+	align-self: center;
+}
+
+.content_actions {
+	margin: auto;
+}
+
+.btn_actions {
+	justify-content: space-between;
+	margin-left: 30px;
+	align-self: center;
+	align-items: center;
+	flex: 1;
+	flex-direction: row;
+	cursor: pointer;
+}
+
+.wrap_content {
+	padding: 20px;
+}
+
+fieldset {
+	border: 1px solid #ccc;
+	padding: 20px;
+}
+
+input, select {
+	padding: 12px;
+	border: 1px solid #ccc;
+	width: 100%;
+	margin: 10px;
+	border-radius: 5px;
+}
+
+input[type="search"] {
+	margin: 0 0 20px;
+}
+
+button {
+	padding: 10px;
+	background-color: #184;
+	border-radius: 5px;
+	color: #fff;
+	width: 180px;
+	margin: 20px auto;
+	text-align: center;
+	cursor: pointer;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+    text-align: center;
+}
+
+.last {
+	text-align: center;
+	cursor: pointer;
+}
+
+.cor_pedido {
+	background-color: red;
+	width: 100%;
+	height: 10px;
+	text-align: center;
+}
+
+#content_nav {
+	padding: 15px;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.contadores {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+	cursor: pointer;
+	width: 40px;
+	text-align: center;	
+}
+
+.content_tick {
+	text-align: left;
+	width: 100%;
+	padding: 5px;
+	margin-bottom: 10px;
+	color: #111;
+	display: flex;
+}
+
+.content_tick label {
+	display: inline-block;
+	margin-left: 10px;
+	align-self: center;
+}
+
+.content_tick span {
+	text-align: left;
+	display: inline-block;
+	border: 1px solid #4F4F4F;
+	padding: 5px;
+	width: 25px;
+	height: 25px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#content_table {
+	max-height: 320px;
+	overflow: auto;
+}
+/*
+#lista_config {
+	text-align: left;
+}
+
+#lista_config li {
+	display: inline-block;
+	border: 1px solid;
+	padding: 10px;
+}*/

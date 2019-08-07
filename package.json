@@ -1,0 +1,40 @@
+{
+  "name": "Protocolo_Electronico",
+  "version": "1.0.0",
+  "description": "Protocolo Electrónico - Programa de Melhoria de Ambiente de Negócios e Concorrência",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron . --disable-gpu",
+    "dev": "electron .",
+    "pack": "build --dir",
+    "dist": "build --ia32",
+    "dist_64": "build",
+    "package-mac": "electron-packager . --overwrite --asar=true --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . pmn --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Protocolo Electrónico\""
+  },
+  "author": "Célio Garcia - Gentilmente cedido para o Ministério da Economia e Planeamento",
+  "license": "ISC",
+  "devDependencies": {
+    "asar": "^0.14.5",
+    "electron": "^6.0.0",
+    "electron-builder": "^20.36.2",
+    "electron-packager": "^12.2.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.8.0",
+    "dexie": "^2.0.4",
+    "electron-chartjs": "^1.0.0",
+    "electron-print": "^1.0.2",
+    "jquery": "^3.3.1",
+    "jspdf": "^1.4.1",
+    "pdf-to-printer": "^0.1.2",
+    "read-excel-file": "^4.0.1",
+    "xlsx": "^0.14.1"
+  },
+  "build": {
+    "win": {
+      "target": "NSIS",
+      "icon": "icon.ico"
+    }
+  }
+}

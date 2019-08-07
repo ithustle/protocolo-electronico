@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <title>Programa de Melhoria de Ambiente de Negócios e Concorrência</title>
+    </head>
+    <body>
+        <main>
+            <section class="tela" id="saidaProcesso" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Registo de Departamento Ministerial</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="text" placeholder="Introduza o nome do Departamento Ministerial" id="departamento">
+                            <button type="text" onclick="registar()">Registar</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const { remote, ipcRenderer } = require('electron');
+            const { registaDepartamento } = require("./database.js");
+
+            const departamento = document.getElementById("departamento");
+
+            ipcRenderer.on('processo', (event, info) => {
+                const processo = JSON.parse(info)
+                numero_processo_saida.value = processo.numero_processo;
+            });
+
+            registar = () => {
+
+                const dados = {
+                    departamento: departamento.value
+                }
+      
+                registaDepartamento(dados);
+            }
+
+        </script>
+    </body>
+</html>

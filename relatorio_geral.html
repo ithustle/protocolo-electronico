@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <title>Programa de Melhoria de Ambiente de Negócios e Concorrência</title>
+    </head>
+    <body>
+        <main>
+            <section class="tela" id="saidaProcesso" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Gerar Relatório Geral</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="file" id="file_geral" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <div class="content_loading">
+                                <div id="loading">
+                                    <p id="perc"></p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="importaRelarioGeral()">Importar</button>
+                            <button id="btn_gerar" type="button" onclick="geraRelatorio()">Gerar Relatório</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const app = require("electron").remote;
+            const url = require("url");
+            const path = require("path");
+            const readXlsxFile = require("read-excel-file/node");
+        
+            const { registaRelatorioGeral } = require("./database.js");
+
+            const btn_gerar = document.getElementById("btn_gerar");
+            //btn_gerar.style.display = "none";
+
+            geraRelatorio = () => {
+                const win = new app.BrowserWindow(
+                    {
+                        fullscreenable: true,
+                        webPreferences: {
+                            nodeIntegration: true
+                        }
+                    }
+                );
+
+                win.loadURL(url.format({
+                    pathname: path.join(__dirname, "relatorioGeralGerado.html"),
+                    protocol: "file",
+                    slashes: true
+                }));
+            }
+
+            importaRelarioGeral = () => {
+                
+                const file_geral = document.getElementById("file_geral").files[0];
+
+                const schema = {
+                    'Departamento': {
+                        prop: 'departamento',
+                        type: String
+                    },
+                    'numero_processo': {
+                        prop: 'numero_processo',
+                        type: String
+                    },
+                    'processo': {
+                        prop: 'processo',
+                        type: String
+                    },
+                    'estado': {
+                        prop: 'estado',
+                        type: String
+                    },
+                    'dias_decorridos': {
+                        prop: 'dias_decorridos',
+                        type: String
+                    }
+                };
+
+                readXlsxFile(file_geral.path, { schema }).then(({ rows, errors }) => {
+                    for (let i in rows) {
+                        
+                        registaRelatorioGeral(rows[i]);
+
+                        /*$("#loading").css("width", ((i / (rows.length - 1)) * 100) + "%");
+                        $("#loading").css("padding", "10px");
+                        $("#perc").html(((i / (rows.length - 1)).toFixed(1) * 100) + "%");
+                        registaRelatorioGeral(rows[i]);*/
+                    }
+                    btn_gerar.style.display = "block";
+                });
+            }
+
+        </script>
+    </body>
+</html> 

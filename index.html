@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <title>Protocolo Electrónico</title>
+    </head>
+    <body>
+        <main>
+            <header>
+                <div class="content_actions" >
+                    <img src="./imgs/settings.svg" id="btn_config" height="64" class="btn_actions" alt="Configurações" />
+                    <span></span>
+                    <img src="./imgs/add.svg" id="btn_add" height="64" class="btn_actions" alt="Adicionar Departamentos" />
+                    <img src="./imgs/folder.svg" id="btn_entrada" height="64" class="btn_actions" alt="Entrada de processos" />
+                    <img src="./imgs/file.svg" id="btn_importar" height="64" class="btn_actions" alt="Importar processos via excel" />
+                    <span></span>
+                    <img src="./imgs/growth.svg" id="btn_report" height="64" class="btn_actions" alt="Ver processos" />
+                </div>
+            </header>
+            
+            <div class="entrada_saida" id="entrada_saida">
+
+                <section class="tela" id="importacao_processos" >
+                    <div class="wrap_content">
+                        <fieldset>
+                            <legend>Importação de Processos</legend>
+                            <form action="javascript:void(0)" method="post" >
+                                <input type="file" id="file_excel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <div class="content_loading">
+                                    <div id="loading">
+                                        <p id="perc"></p>
+                                    </div>
+                                </div>
+                                <button type="text" onclick="importaProcessos()">Importar</button>
+                            </form>
+                        </fieldset>
+                    </div>
+                </section>
+
+                <section class="tela" id="entrada" >
+                    <div class="wrap_content">
+                        <fieldset>
+                            <legend>Entrada de Processos</legend>
+                            <form action="javascript:void(0)" method="post" >
+                                <input type="text" placeholder="Nome do solicitante" id="nome_solicitante">
+                                <input type="text" placeholder="Nº de identificação pessoal" id="numero_id">
+                                <input type="text" placeholder="Número do processo" id="numero_processo">
+                                <input type="tel" placeholder="Número de telefone" id="numero_telefone">
+                                <select id="combo">
+                                    <option selected="true" disabled="disabled">Selecione a solicitação</option>
+                                </select>
+                                <select id="combo_departamento">
+                                    <option selected="true" disabled="disabled">Selecione o departamento ministerial</option>
+                                </select>
+                                <input type="date" id="data_entrada">
+                                <button type="text" onclick="regista()">Registar Entrada</button>
+                            </form>
+                        </fieldset>
+                    </div>
+                </section>
+    
+                <section class="tela" id="saidaDoProcesso" >
+                    <div class="wrap_content">
+                        <fieldset>
+                            <legend>Saída do Processo</legend>
+                            <form action="javascript:void(0)" method="post" >
+                                <input type="text" placeholder="Número do Processo" id="numero_processo_saida">
+                                <input type="date" id="data_saida">
+                                <button type="text" onclick="fnSaidaProcesso()">Registar Saída</button>
+                            </form>
+                        </fieldset>
+                    </div>
+                </section>
+            </div>
+
+            <section class="tela" id="report" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Impressão</legend>
+                        <input type="search" placeholder="Pesquise pelo número do processo, número de telefone ou de identificação pessoal e pressione ENTER." id="procurar" />
+                        <div class="content_tick">
+                            <span id="check_ocultar"></span>
+                            <label>Ocultar Processos Concluídos</label>
+                        </div>
+                        <div id="content_table" ></div>
+                        <!--<div id="content_nav" >
+                            <div class="contadores" >1</div>
+                            <div class="contadores" >2</div>
+                        </div>-->
+                    </fieldset>
+                    <!--<button type="button" onclick="relatorio()">Relatório</button>-->
+                    <button type="button" onclick="relatorio()/*abreDialogRelatorio()*/">Extrair para PDF</button>
+                    <button type="button" onclick="extraiExcel()">Extrair para Excel</button>
+                    <!--<button type="button" onclick="abreDialogRelatorio()">Gerar Relatório Geral</button>-->
+                </div>
+            </section>
+
+            <section class="tela" id="config" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Padronizações</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="text" placeholder="Nome do serviço. ex: Alvará Comercial, Passaporte..." id="nome_servico">
+                            <input type="number" placeholder="Número de dias do serviço" id="numero_dias">
+                            <select id="combo_departamento_trabalho">
+                                <option selected="true" disabled="disabled">Selecione o departamento ministerial</option>
+                            </select>
+                            <button type="text" onclick="guardaConfig()">Guardar</button>
+                        </form>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Importação de Padronizações</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="file" id="file_excel_padronizacao" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            <button type="text" onclick="importaPadronizacao()">Importar</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </section>
+        </main>
+        <script src="./FileSaver.min.js" type="text/javascript"></script>
+        <script src="./js.js" type="text/javascript"></script>
+    </body>
+</html>

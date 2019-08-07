@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet"  href="print.css" />
+        <title>Programa de Melhoria de Ambiente de Negócios e Concorrência</title>
+    </head>
+    <body>
+        <main>
+            <section>
+                <header>
+                    <img src="./imgs/insignia_large.png" height="54" />
+                    <p>República de Angola</p>
+                    <p>Programa de Melhoria de Ambiente de Negócios e Concorrência</p>
+                </header>
+                <h3 id="titulo"></h3>
+                <p id="nome"></p>
+                <p id="processo"></p>
+                <p id="solicitacao"></p>
+                <p id="data"></p>
+                <i id="nota"></i>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const { remote, ipcRenderer } = require('electron');
+            const dialog = remote.dialog;
+            const { login } = require("./database.js");
+
+            const titulo = document.getElementById("titulo");
+            const nome = document.getElementById("nome");
+            const processo = document.getElementById("processo");
+            const solicitacao = document.getElementById("solicitacao");
+            const data = document.getElementById("data");
+            const nota = document.getElementById("nota");
+
+            ipcRenderer.on('processo', (event, info) => {
+                titulo.innerText = `${info.titulo}`;
+                nome.innerText = `Nome: ${info.nome_solicitante}`;
+                processo.innerText = `Nº de Processo: ${info.numero_processo}`;
+                solicitacao.innerText = `Solicitação: ${info.trabalho}`;
+                nota.innerText = (info.data_entrada) ? "Apresente este recibo para poder levantar o seu documento, guarde-o em um local seguro para a sua segurança." : "";
+                data.innerText = (info.data_entrada) ? `Data de Entrada: ${info.data_entrada}` : `Data de Saída: ${info.data_saida}`;
+
+                window.print();
+            });
+        </script>
+    </body>
+</html>

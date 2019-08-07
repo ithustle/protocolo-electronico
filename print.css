@@ -1,0 +1,158 @@
+@media print {
+    h3 {
+        font-size: 25pt;
+        padding: 0 0 20px 0;
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    p {
+        padding: 5px 0;
+        font-size: 14pt;
+    }
+    
+    p#nome{
+        font-size: 18pt;
+    }
+    
+    main {
+        padding: 16px;
+    }
+    
+    main section {
+        width: 210mm;
+        margin: auto;
+        padding: 0 10px;
+        page-break-after: always;
+    }
+    
+    main section header {
+        text-align: center;
+    }
+    
+    i {
+        padding: 100px 0;
+        display: block;
+        font-size: 13pt;
+    }
+    
+    button {
+        display: none;
+    }
+    
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+        text-align: center;
+    }
+
+    .barra {
+        background-color: #999;
+        height: 26px;
+        width: 100%;
+        line-height: 26px;
+        color: #fff;
+        text-align: center;
+    }
+
+    .content_details {
+        padding: 5px;
+    }
+    
+    .ref {
+        font-weight: bold;
+    }
+}
+
+@page {
+    size: A4;
+}
+
+h3 {
+    font-size: 25pt;
+    padding: 0 0 20px 0;
+    text-align: center;
+    margin: 20px 0;
+}
+
+p {
+    padding: 5px 0;
+    font-size: 14pt;
+}
+
+p#nome{
+    font-size: 18pt;
+}
+
+main {
+    padding: 16px;
+}
+
+main section {
+    width: 210mm;
+    margin: auto;
+    padding: 0 10px;
+    page-break-after: always;
+}
+
+main section header {
+    text-align: center;
+}
+
+i {
+    padding: 100px 0;
+    display: block;
+    font-size: 13pt;
+}
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+    text-align: center;
+}
+
+.barra {
+    background-color: #999;
+    height: 26px;
+    width: 100%;
+    line-height: 26px;
+    color: #fff;
+    text-align: center;
+}
+
+.content_details {
+    padding: 5px;
+}
+
+.ref {
+    font-weight: bold;
+}
+
+.btn_print {
+    padding: 10px;
+    background-color: #999;
+    color: #000;
+}

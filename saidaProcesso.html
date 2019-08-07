@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <title>Programa de Melhoramento de Negócios</title>
+    </head>
+    <body>
+        <main>
+            <section class="tela" id="saidaProcesso" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Saída do Processo</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="text" disabled placeholder="Número do Processo" id="numero_processo_saida">
+                            <input type="date" id="data_saida">
+                            <button type="text" onclick="saidaDoProcesso()">Registar</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const { remote, ipcRenderer } = require('electron');
+            const dialog = remote.dialog;
+            const { saidaProcesso } = require("./database.js");
+
+            const numero_processo_saida = document.getElementById("numero_processo_saida");
+            
+            const data_saida = document.getElementById("data_saida");
+
+            ipcRenderer.on('processo', (event, info) => {
+                const processo = JSON.parse(info)
+                numero_processo_saida.value = processo.numero_processo;
+            });
+
+            saidaDoProcesso = () => {
+                const data = {
+                    numero_processo: numero_processo_saida.value,
+                    data_saida: data_saida.value
+                }
+
+                saidaProcesso(data);
+                dialog.showMessageBox({type: "info", message: "Operação concluida com sucesso."});
+                setTimeout(() => {
+                    window.close();
+                }, 1000);
+            }
+
+        </script>
+    </body>
+</html>

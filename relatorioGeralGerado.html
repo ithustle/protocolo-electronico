@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet"  href="print.css" />
+        <title>Protocolo Electrónico</title>
+    </head>
+    <body>
+        <main>
+            <section>
+                <header>
+                    <img src="./imgs/insignia_large.png" height="54" />
+                    <p>República de Angola</p>
+                    <p>Programa de Melhoria de Ambiente de Negócios e Concorrência</p>
+                </header>
+                <h3>Relatório de Geral</h3>
+                <div class="barra" id="barra"></div>
+                <div id="content_table_print" ></div>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const { remote, ipcRenderer } = require('electron');
+            const dialog = remote.dialog;
+            const Chart = require('chart.js');
+            const { 
+                verRelatorioGeral,
+                verProcesso,
+                verTrabalhos,
+                verProcessos,
+                verDepartamentos
+            } = require("./database.js");
+            const { differenceBetween, tempoPercorridos } = require("./helper.js");
+            const ipc = ipcRenderer;
+
+            Date.prototype.addDays = function (h, d) {
+                return new Date(new Date(h).getTime() + 864E5 * d);
+            };
+
+            
+            const content_table = document.getElementById("content_table_print");
+            let tables_lines = "";
+            const barra_content = document.getElementById("barra");
+
+            executa = async () => {
+                const dados = await verTrabalhos();
+                content_table.innerHTML =
+                `
+                    <div class="barra">Ministério da Saúde</div>
+                `;
+
+                ipc.send("print-to-pdf");
+            }
+
+            classificadorTempo = async numero_processo => {
+                const processo = await verProcesso(numero_processo);
+                const trabalhos = await verTrabalhos();
+                const date = new Date();
+                const PERCENT = 0.5;
+
+                for (let i in trabalhos) {
+
+                    if (trabalhos[i].nome_servico == processo.trabalho) {
+
+                        const numero_dias = trabalhos[i].numero_dias;
+                        const valor_dia_intermedio = numero_dias * PERCENT;
+                        const data_para_sair = date.addDays(processo.data_entrada, trabalhos[i].numero_dias);
+                        const dias_faltam = differenceBetween(data_para_sair);
+
+                        if (processo.data_saida !== undefined) {
+                                return "#333";
+                        }
+
+                        if (dias_faltam > valor_dia_intermedio ) {
+                            return "#5FBA7D";
+                        }
+
+                        if (dias_faltam <= valor_dia_intermedio && dias_faltam > 0) {
+                            return "#FFB935";
+                        }
+
+                        if (dias_faltam <= 0) {
+                            return "#FF0000";
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            const ocultar = window.localStorage.getItem("check");
+
+            verProcessos( (ocultar == null) ? undefined : "X" ).then(async processos => {
+
+                let departamentos = {};
+                const dept = await verDepartamentos();
+
+                const dataProdutos = processos;
+			
+				const processoAgrupados = dataProdutos.reduce(function(acumulador, corrente){
+					
+					const indice = acumulador.map(x => x.departamento).indexOf(corrente.departamento);
+
+					if (indice==-1){
+						acumulador.push(
+							{
+								departamento: corrente.departamento, 
+								processos: [
+									corrente
+								]
+							}
+						);
+					} else {
+
+						acumulador[indice].processos.push(
+							corrente
+						);
+					}
+				return acumulador;
+				},[]);
+
+                for (let i in dept) {
+                    departamentos[dept[i].departamento] = dept[i].departamento;
+                }
+
+                //console.log(processos)
+                for (let i=0; i < processoAgrupados.length; i++) {
+                    barra_content.innerHTML += `<div>${processoAgrupados[i].departamento}</div>`;
+                    for (let j=0; j < processoAgrupados[i].processos.length; j++) {
+
+                        const cor_categoria = await classificadorTempo(processoAgrupados[i].processos[j].numero_processo);
+
+                        processoAgrupados[i].processos[j].categ = cor_categoria === "#5FBA7D" ? "Normal" : cor_categoria === "#FFB935" ? "Prioridade" : cor_categoria === "#333" ? "Concluído" : "Recuperação";
+                        processoAgrupados[i].processos[j].dias_decorridos = tempoPercorridos(processoAgrupados[i].processos[j].data_entrada, processoAgrupados[i].processos[j].data_saida);
+
+                        tables_lines += 
+                        `<tr>
+                            <td>${processoAgrupados[i].processos[j].trabalho}</td>
+                            <td>${processoAgrupados[i].processos[j].numero_processo}</td>
+                            <td>${processoAgrupados[i].processos[j].data_entrada}</td>
+                            <td>${processoAgrupados[i].processos[j].data_saida}</td>
+                            <td>${processoAgrupados[i].processos[j].dias_decorridos}</td>
+                            <td>${processoAgrupados[i].processos[j].categ}<div style='background-color: ${cor_categoria}; height: 10px; width: 10px; display: block; margin: 5px auto'></div></td>
+                        </tr>`;
+
+                        content_table.innerHTML = 
+                        `
+                        <table id='tabela_processos'>
+                            <tr>
+                                <th>Solicitação</th>
+                                <th>Nº de Processo</th>
+                                <th>Data de Entrada</th>
+                                <th>Data de Entrega</th>
+                                <th>Dias Decorridos</th>
+                                <th>Estado</th>
+                            </tr>
+                            ${tables_lines}
+                        </table>`
+                    }
+                }
+            });
+
+            executa();
+
+            ipc.on("wrote-pdf", (event, path) => {
+                const message = "Wrote pdf path to: " + path;
+                console.log(message)
+            });
+
+            
+        </script>
+    </body>
+</html>

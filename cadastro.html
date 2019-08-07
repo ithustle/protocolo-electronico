@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./reset.css">
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <title>Programa de Melhoria de Ambiente de Negócios e Concorrência</title>
+    </head>
+    <body>
+        <main>
+            <section class="tela" id="saidaProcesso" >
+                <div class="wrap_content">
+                    <fieldset>
+                        <legend>Cadastro de Administrador</legend>
+                        <form action="javascript:void(0)" method="post" >
+                            <input type="text" placeholder="Nome de utilizador" id="user_name">
+                            <input type="password" placeholder="Palavra-passe" id="senha">
+                            <button type="text" onclick="cadastroAdmin()">Login</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </section>
+        </main>
+        <script type="text/javascript">
+            const { remote, BrowserWindow } = require('electron');
+            const dialog = remote.dialog;
+            const app = remote.app;
+            const { registaAdmin } = require("./database.js");
+
+            const user_name = document.getElementById("user_name");
+            const senha = document.getElementById("senha");
+
+            let win;
+
+            cadastroAdmin = () => {
+
+                const dados = {
+                    user_name: user_name.value,
+                    senha: senha.value
+                }
+
+                console.log("OK")
+      
+                registaAdmin(dados).then( x  => {
+                    console.log(x, "aqui")
+                    window.localStorage.setItem("cadastro", "feito");
+                    dialog.showMessageBox({type: "info", message: "Cadastro Feito."});
+                    setTimeout(() => {
+                        window.close();
+                    }, 500);
+                });
+            }
+
+            console.log(window.localStorage.getItem("cadastro"))
+
+            entraNaApp = () => {
+                
+                win = new BrowserWindow(
+                    {
+                        //parent: app.getCurrentWindow(),
+                        width: 1000,
+                        height: 680, 
+                        resizable: false, 
+                        fullscreenable: false
+                    }
+                );
+
+                win.loadURL(url.format({
+                    pathname: path.join(__dirname, "index.html", ),
+                    protocol: "file",
+                    
+                    slashes: true
+                }));
+                //window.close();
+            }
+
+            if (window.localStorage.getItem("cadastro") === "feito") {
+                entraNaApp();
+            }
+
+        </script>
+    </body>
+</html>
