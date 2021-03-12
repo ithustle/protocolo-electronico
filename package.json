@@ -27,7 +27,7 @@
 		"electron-chartjs": "^1.0.0",
 		"electron-print": "^1.0.2",
 		"jquery": "^3.3.1",
-		"jspdf": "^1.4.1",
+		"jspdf": "^2.3.1",
 		"pdf-to-printer": "^0.1.2",
 		"read-excel-file": "^4.0.1",
 		"update-electron-app": "^1.5.0",
