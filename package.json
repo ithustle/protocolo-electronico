@@ -22,7 +22,7 @@
 		"electron-packager": "^12.2.0"
 	},
 	"dependencies": {
-		"chart.js": "^2.8.0",
+		"chart.js": "^2.9.4",
 		"dexie": "^2.0.4",
 		"electron-chartjs": "^1.0.0",
 		"electron-print": "^1.0.2",
